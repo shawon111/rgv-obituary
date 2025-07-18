@@ -1,6 +1,5 @@
 'use client';
 
-import { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 
@@ -13,7 +12,6 @@ interface RichTextEditorProps {
 }
 
 export default function RichTextEditor({ value, onChange, placeholder }: RichTextEditorProps) {
-  const quillRef = useRef<any>(null);
 
   const modules = {
     toolbar: [
@@ -37,7 +35,6 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
   return (
     <div className="bg-white">
       <ReactQuill
-        ref={quillRef}
         theme="snow"
         value={value}
         onChange={onChange}

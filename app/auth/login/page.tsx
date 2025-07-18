@@ -41,7 +41,6 @@ export default function LoginPage() {
       });
 
       const data = await response.json();
-      console.log("login data", response)
       if (response.ok === true) {
         router.push('/dashboard');
       } else {

@@ -21,9 +21,6 @@ export async function middleware(request: NextRequest) {
   if (token) {
     const decoded = await verifyToken(token);
 
-    console.log('TOKEN:', token);
-    console.log('DECODED:', decoded);
-
     // Invalid token
     if (!decoded && isProtectedRoute) {
       const response = NextResponse.redirect(new URL('/auth/login', request.url));
