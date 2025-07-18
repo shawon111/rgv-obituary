@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import User from '@/models/User';
-import { generateToken } from '@/lib/auth';
+import { generateToken } from '@/lib/token';
 
 export async function POST(request: NextRequest) {
   try {
