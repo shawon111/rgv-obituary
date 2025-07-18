@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -32,12 +33,6 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
     'blockquote', 'code-block',
     'link',
   ];
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      import('react-quill/dist/quill.snow.css');
-    }
-  }, []);
 
   return (
     <div className="bg-white">
