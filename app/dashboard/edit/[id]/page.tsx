@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
+import { CldUploadWidget } from 'next-cloudinary';
 
 interface ObituaryLocation {
   venue: string;
@@ -283,14 +284,38 @@ const EditPage = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="featuredImage">Featured Image URL (Optional)</Label>
-                <Input
-                  id="featuredImage"
-                  name="featuredImage"
-                  value={formData.featuredImage}
-                  onChange={handleChange}
-                  placeholder="https://example.com/image.jpg"
-                />
+                <Label htmlFor="featuredImage">Featured Image (Optional)</Label>
+                <div className="flex flex-col gap-2">
+                  {formData.featuredImage && (
+                    <img
+                      src={formData.featuredImage}
+                      alt="Featured Preview"
+                      className="w-48 h-48 object-cover rounded border"
+                    />
+                  )}
+                  <CldUploadWidget
+                    uploadPreset="obituary_featured"
+                    options={{ multiple: false }}
+                    onSuccess={(result: any) => {
+                      if (result?.info?.secure_url) {
+                        setFormData(prev => ({ ...prev, featuredImage: result.info.secure_url }));
+                      }
+                    }}
+                  >
+                    {({ open }) => {
+                      return (
+                        <Button type="button" variant="secondary" onClick={() => open()}>
+                          Upload Image
+                        </Button>
+                      );
+                    }}
+                  </CldUploadWidget>
+                  {formData.featuredImage && (
+                    <Button type="button" variant="outline" onClick={() => setFormData(prev => ({ ...prev, featuredImage: '' }))}>
+                      Remove Image
+                    </Button>
+                  )}
+                </div>
               </div>
             </CardContent>
           </Card>

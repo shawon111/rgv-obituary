@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Save, Eye } from 'lucide-react';
@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
+import { CldUploadWidget } from 'next-cloudinary';
 
 export default function CreateObituaryPage() {
   const [formData, setFormData] = useState({
@@ -52,7 +53,7 @@ export default function CreateObituaryPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    
+
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
       setFormData(prev => ({
@@ -129,7 +130,7 @@ export default function CreateObituaryPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      
+
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
           <Link href="/dashboard">
@@ -208,14 +209,38 @@ export default function CreateObituaryPage() {
               </div>
 
               <div>
-                <Label htmlFor="featuredImage">Featured Image URL (Optional)</Label>
-                <Input
-                  id="featuredImage"
-                  name="featuredImage"
-                  value={formData.featuredImage}
-                  onChange={handleChange}
-                  placeholder="https://example.com/image.jpg"
-                />
+                <Label htmlFor="featuredImage">Featured Image (Optional)</Label>
+                <div className="flex flex-col gap-2">
+                  {formData.featuredImage && (
+                    <img
+                      src={formData.featuredImage}
+                      alt="Featured Preview"
+                      className="w-48 h-48 object-cover rounded border"
+                    />
+                  )}
+                  <CldUploadWidget
+                    uploadPreset="obituary_featured"
+                    options={{ multiple: false }}
+                    onSuccess={(result: any) => {
+                      if (result?.info?.secure_url) {
+                        setFormData(prev => ({ ...prev, featuredImage: result.info.secure_url }));
+                      }
+                    }}
+                  >
+                    {({ open }) => {
+                      return (
+                        <Button type="button" variant="secondary" onClick={() => open()}>
+                          Upload Image
+                        </Button>
+                      );
+                    }}
+                  </CldUploadWidget>
+                  {formData.featuredImage && (
+                    <Button type="button" variant="outline" onClick={() => setFormData(prev => ({ ...prev, featuredImage: '' }))}>
+                      Remove Image
+                    </Button>
+                  )}
+                </div>
               </div>
             </CardContent>
           </Card>
