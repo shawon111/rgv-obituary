@@ -201,7 +201,7 @@ export default function DashboardPage() {
                     
                     <div className="flex items-center space-x-2">
                       {obituary.isPublished && (
-                        <Link href={`/obituaries/${obituary._id}`}>
+                        <Link href={`/obituaries/${obituary._id}`} target="_blank">
                           <Button variant="outline" size="sm" className="flex items-center space-x-1">
                             <Eye className="h-4 w-4" />
                             <span>View</span>
