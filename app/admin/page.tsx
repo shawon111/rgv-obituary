@@ -1,27 +1,44 @@
 "use client";
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import AdminHeader from '@/components/layout/AdminHeader';
 
 export default function AdminDashboard() {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const [checked, setChecked] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     async function checkAdmin() {
       try {
         const res = await fetch('/api/auth/me');
-        if (!res.ok) { setIsAdmin(false); return; }
+        if (!res.ok) {
+          setChecked(true);
+          setIsAdmin(null);
+          return;
+        }
         const data = await res.json();
         setIsAdmin(data.user.role === 'admin');
-      } catch { setIsAdmin(false); }
+        setChecked(true);
+      } catch {
+        setChecked(true);
+        setIsAdmin(null);
+      }
     }
     checkAdmin();
   }, []);
 
-  if (isAdmin === null) {
+  useEffect(() => {
+    if (checked && isAdmin === null) {
+      router.replace('/auth/login');
+    }
+  }, [checked, isAdmin, router]);
+
+  if (!checked) {
     return <div className="min-h-screen flex items-center justify-center text-gray-600">Checking admin access...</div>;
   }
-  if (!isAdmin) {
+  if (checked && isAdmin === false) {
     return <div className="min-h-screen flex items-center justify-center text-red-600">Access denied.</div>;
   }
 

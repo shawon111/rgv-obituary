@@ -42,12 +42,20 @@ export default function LoginPage() {
 
       const data = await response.json();
       if (response.ok === true) {
+        // Fetch user info to check role
+        const meRes = await fetch('/api/auth/me');
+        if (meRes.ok) {
+          const meData = await meRes.json();
+          if (meData.user.role === 'admin') {
+            window.open('/admin', '_blank');
+          }
+        }
         router.push('/dashboard');
       } else {
-        console.log(data.error || 'Login failed');
+        setError(data.error || 'Login failed');
       }
     } catch (error) {
-      console.log('An error occurred. Please try again.');
+      setError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
