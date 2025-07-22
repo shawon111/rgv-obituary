@@ -17,15 +17,22 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 
-  // If token exists, verify it
   if (token) {
     const decoded = await verifyToken(token);
 
-    // Invalid token
-    if (!decoded && isProtectedRoute) {
-      const response = NextResponse.redirect(new URL('/auth/login', request.url));
-      response.cookies.delete('auth-token'); // Clear the bad cookie
-      return response;
+    // Invalid token: clear cookie and allow access to auth routes
+    if (!decoded) {
+      if (isProtectedRoute) {
+        const response = NextResponse.redirect(new URL('/auth/login', request.url));
+        response.cookies.delete('auth-token');
+        return response;
+      }
+      // For auth routes, clear cookie and allow to proceed
+      if (isAuthRoute) {
+        const response = NextResponse.next();
+        response.cookies.delete('auth-token');
+        return response;
+      }
     }
 
     // Already logged in, redirect from login/register
