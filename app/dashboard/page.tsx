@@ -33,9 +33,14 @@ export default function DashboardPage() {
   const [obituaries, setObituaries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  // Add logic to check if user is admin (pseudo, to be replaced with real auth check)
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     fetchMyObituaries();
+    // TODO: Replace with real auth/role check
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    setIsAdmin(user.role === 'admin');
   }, []);
 
   const fetchMyObituaries = async () => {
@@ -248,6 +253,12 @@ export default function DashboardPage() {
           </div>
         )}
       </main>
+
+      {isAdmin && (
+        <div className="my-8">
+          <Link href="/dashboard/admin" className="text-green-700 font-bold underline">Go to Admin Dashboard</Link>
+        </div>
+      )}
 
       <Footer />
     </div>
