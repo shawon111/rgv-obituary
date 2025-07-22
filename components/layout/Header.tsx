@@ -51,7 +51,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center space-x-2">
             <Heart className="h-8 w-8 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">Eternal Memories</span>
+            <span className="text-xl font-bold text-gray-900">RGV Obituaries</span>
           </Link>
 
           {/* Desktop Navigation */}

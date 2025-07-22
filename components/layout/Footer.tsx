@@ -9,7 +9,7 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <Heart className="h-6 w-6 text-blue-400" />
-              <span className="text-lg font-semibold">Eternal Memories</span>
+              <span className="text-lg font-semibold">RGV Obituary</span>
             </div>
             <p className="text-gray-400">
               Honoring lives, preserving memories, and celebrating the legacy of those we love.
@@ -72,7 +72,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-gray-400" />
-                <span className="text-gray-400">info@eternalmemories.com</span>
+                <span className="text-gray-400">info@rgvobituaries.com</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4 text-gray-400" />
@@ -83,7 +83,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Eternal Memories. All rights reserved.</p>
+          <p>&copy; 2025 RGV Obituaries. All rights reserved.</p>
         </div>
       </div>
     </footer>
